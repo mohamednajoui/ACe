@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecos en la Sombra - Novela Visual</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Main Menu -->
+        <div id="main-menu">
+            <h1>Ecos en la Sombra</h1>
+            <button id="btn-new-game">Nueva Partida</button>
+            <button id="btn-load-game" onclick="openLoadMenu()">Cargar Partida</button>
+            <button id="btn-gallery-menu" onclick="toggleGallery()">Galería de Finales</button>
+            <button id="btn-settings-menu" onclick="toggleSettings()">Configuración</button>
+        </div>
+
+        <!-- Settings Overlay -->
+        <div id="settings-overlay" class="hidden">
+            <div id="settings-container">
+                <h2>Configuración</h2>
+
+                <div class="setting-group">
+                    <label for="bgm-volume">Volumen Música:</label>
+                    <input type="range" id="bgm-volume" min="0" max="1" step="0.1" value="0.5">
+                </div>
+
+                <div class="setting-group">
+                    <label for="sfx-volume">Volumen Efectos:</label>
+                    <input type="range" id="sfx-volume" min="0" max="1" step="0.1" value="0.5">
+                </div>
+
+                <div class="setting-group">
+                    <label for="text-speed">Velocidad de Texto:</label>
+                    <input type="range" id="text-speed" min="10" max="100" step="10" value="30" style="direction: rtl;"> <!-- Rtl makes it so left is slower, right is faster visually if we map smaller ms to right -->
+                </div>
+
+                <button id="btn-close-settings" onclick="toggleSettings()">Cerrar</button>
+            </div>
+        </div>
+
+        <!-- Background image -->
+        <div id="background-1" class="bg-layer hidden active"></div>
+        <div id="background-2" class="bg-layer hidden"></div>
+        <div id="weather-layer"></div>
+
+        <!-- Transition Overlay -->
+        <div id="transition-overlay"></div>
+        <div id="fx-overlay"></div>
+
+        <!-- History Overlay -->
+        <div id="history-overlay" class="hidden">
+            <div id="history-container">
+                <h2>Historial de Diálogo</h2>
+                <div id="history-content"></div>
+                <button id="btn-close-history" onclick="toggleHistory()">Cerrar</button>
+            </div>
+        </div>
+
+        <!-- Save/Load Overlay -->
+        <div id="saveload-overlay" class="hidden">
+            <div id="saveload-container">
+                <h2 id="saveload-title">Partidas</h2>
+                <div id="saveload-slots">
+                    <!-- Slots will be injected here -->
+                </div>
+                <button id="btn-close-saveload" onclick="toggleSaveLoad()">Cerrar</button>
+            </div>
+        </div>
+
+        <!-- Minigame Overlay (Hidden by default) -->
+        <div id="minigame-container" class="hidden">
+            <!-- Content will be injected dynamically based on the minigame -->
+        </div>
+
+        <!-- UI Overlay -->
+        <div id="ui-layer" class="hidden">
+            <!-- System Controls -->
+            <div id="system-controls">
+                <button id="btn-fullscreen" class="sys-btn" onclick="toggleFullscreen()">Pantalla Completa</button>
+                <button id="btn-auto" class="sys-btn" onclick="toggleAuto()">Auto: OFF</button>
+                <button id="btn-skip" class="sys-btn" onclick="toggleSkip()">Skip: OFF</button>
+                <button id="btn-history" class="sys-btn" onclick="toggleHistory()">Historial</button>
+                <button id="btn-settings" class="sys-btn" onclick="toggleSettings()">Configuración</button>
+                <button id="btn-save" class="sys-btn" onclick="openSaveMenu()">Guardar Juego</button>
+                <button id="btn-load" class="sys-btn" onclick="openLoadMenu()">Cargar Juego</button>
+            </div>
+
+            <!-- Inventory Bar -->
+            <div id="inventory-container">
+                <span id="inventory-label">Inventario: </span>
+                <div id="inventory-items"></div>
+            </div>
+
+            <div id="character-sprite" class="hidden"><img id="sprite-img" src="" alt="Character"></div>
+            <div id="dialogue-box">
+                <div id="character-name" class="hidden">Nombre</div>
+                <div id="dialogue-text">Texto de diálogo...</div>
+            </div>
+            <div id="choices-container">
+                <!-- Choices will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio elements -->
+    <audio id="bgm-player" loop></audio>
+    <audio id="sfx-player"></audio>
+    <audio id="ui-hover-sfx" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_349da32a67.mp3?filename=menu-button-89141.mp3"></audio>
+    <audio id="ui-click-sfx" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_1d9e262176.mp3?filename=button-124476.mp3"></audio>
+
+    <script src="story.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Gallery Overlay -->
+    <div id="gallery-overlay" class="hidden">
+        <div id="gallery-container">
+            <h2>Galería de Finales</h2>
+            <p id="gallery-stats"></p>
+            <div id="gallery-grid"></div>
+            <button class="sys-btn" onclick="toggleGallery()" style="margin-top: 20px;">Cerrar</button>
+        </div>
+    </div>
+
+</body>
+</html>
