@@ -79,6 +79,7 @@ function loadScene(sceneId) {
     if (scene.giveItem && !playerInventory.includes(scene.giveItem)) {
         playerInventory.push(scene.giveItem);
         updateInventoryUI();
+        showToast('Obtuviste: ' + scene.giveItem);
     }
 
     // Perform Auto-Save
@@ -283,18 +284,32 @@ function finishTyping(scene) {
 }
 
 // Click to advance dialogue or fast forward
-dialogueBoxEl.addEventListener('click', () => {
+
+let lastClickTime = 0;
+dialogueBoxEl.addEventListener('click', (e) => {
+    // Prevent double clicking rapidly from skipping scenes
+    const now = Date.now();
+    if (now - lastClickTime < 200) return;
+    lastClickTime = now;
+
+    const scene = storyData[currentSceneId];
+
+    // If choices are present, do not allow clicking to advance
+    if (scene && scene.choices && scene.choices.length > 0 && !isTyping) {
+        return;
+    }
+
     if (isTyping) {
         // Skip typing
-        finishTyping(storyData[currentSceneId]);
+        finishTyping(scene);
     } else {
-        const scene = storyData[currentSceneId];
         // If it's done typing and has a linear 'next' (no choices), proceed
-        if (scene && scene.next && (!scene.choices || scene.choices.length === 0)) {
+        if (scene && scene.next) {
             loadScene(scene.next);
         }
     }
 });
+
 
 function showChoices(choices) {
     choicesContainerEl.innerHTML = '';
@@ -622,18 +637,7 @@ window.onload = () => {
         startGame();
     };
 
-    document.getElementById('btn-load-game').onclick = () => {
-        const saveStr = localStorage.getItem('ecos_save');
-        if (saveStr) {
-            document.getElementById('main-menu').classList.add('hidden');
-            document.getElementById('background-1').classList.remove('hidden');
-        document.getElementById('background-2').classList.remove('hidden');
-            document.getElementById('ui-layer').classList.remove('hidden');
-            loadGame();
-        } else {
-            alert("No hay partida guardada.");
-        }
-    };
+
 };
 
 // Save / Load System UI
@@ -833,15 +837,7 @@ function unlockEnding(endingId) {
         console.log("Unlocked ending:", endingId);
 
         // Optional: show a small toast or notification
-        const toast = document.createElement('div');
-        toast.className = 'ending-toast';
-        toast.innerText = '¡Nuevo final desbloqueado!';
-        document.body.appendChild(toast);
-        setTimeout(() => toast.classList.add('show'), 100);
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 500);
-        }, 3000);
+        showToast('¡Nuevo final desbloqueado!');
     }
 }
 
@@ -914,4 +910,17 @@ function renderGallery() {
             stats.innerText = `Desbloqueados: ${unlocked.length} / ${window.endingsData.length}`;
         }
     }
+}
+
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'ending-toast';
+    toast.style.zIndex = '9999';
+    toast.innerHTML = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 500);
+    }, 2500);
 }

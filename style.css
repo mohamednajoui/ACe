@@ -69,6 +69,7 @@ body, html {
 
 /* Dialogue Box */
 #dialogue-box {
+    z-index: 100;
     background: rgba(0, 0, 0, 0.85);
     border: 2px solid #555;
     border-radius: 8px;
@@ -114,6 +115,7 @@ body, html {
 
 /* Choices Container */
 #choices-container {
+    z-index: 101;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -885,4 +887,256 @@ body, html {
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
+}
+/* Better Minigame Styling */
+#minigame-container {
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    border: 3px solid #ffcc00;
+}
+
+#minigame-container h2 {
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    margin-bottom: 20px;
+}
+
+/* Safe Cracking Minigame */
+#safe-display {
+    background: #000;
+    color: #0f0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2.5rem;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 2px inset #444;
+    letter-spacing: 10px;
+    box-shadow: inset 0 0 15px rgba(0,255,0,0.2);
+}
+
+#safe-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.keypad-btn {
+    background: linear-gradient(145deg, #444, #222);
+    color: white;
+    border: 2px solid #555;
+    padding: 20px 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.1s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+}
+
+.keypad-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    background: linear-gradient(145deg, #333, #111);
+}
+
+.keypad-btn:hover {
+    border-color: #ffcc00;
+    color: #ffcc00;
+}
+
+/* Wire Puzzle */
+#wire-board {
+    display: flex;
+    justify-content: space-between;
+    width: 350px;
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 12px;
+    border: 2px solid #333;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+    transition: background-color 0.2s;
+}
+
+.wire-col {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.wire-node {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid #555;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.3);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+}
+
+.wire-node:hover {
+    transform: scale(1.1);
+}
+
+.wire-node.selected {
+    border-color: #fff;
+    box-shadow: 0 0 15px #fff, inset 0 0 10px rgba(255,255,255,0.5);
+    animation: pulse 1s infinite alternate;
+}
+
+.wire-node.connected {
+    opacity: 0.5;
+    cursor: default;
+    border-color: #444;
+}
+
+.wire-node.connected::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px black;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1.1); box-shadow: 0 0 15px #fff; }
+    100% { transform: scale(1.15); box-shadow: 0 0 25px #fff; }
+}
+
+.mg-hotspot {
+    position: absolute;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+    /* Optional: make it slightly visible for debugging or keep it transparent */
+    /* background: rgba(255,255,255,0.1); */
+}
+
+.mg-hotspot:hover {
+    /* Slight feedback when hovered */
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Better UI overall */
+body {
+    background-color: #000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#main-menu {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=1920') no-repeat center center / cover;
+}
+
+#main-menu h1 {
+    font-size: 4rem;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(255, 204, 0, 0.4);
+    letter-spacing: 2px;
+    margin-bottom: 50px;
+    animation: fadeInDown 1.5s ease-out;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#main-menu button {
+    font-size: 1.5rem;
+    padding: 15px 40px;
+    margin: 10px;
+    min-width: 250px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    border: 2px solid #ffcc00;
+    border-radius: 30px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+#main-menu button:hover {
+    background: #ffcc00;
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+}
+
+/* System Controls */
+#system-controls {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0));
+    padding: 10px 20px 20px 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.sys-btn {
+    background: rgba(255,255,255,0.1);
+    color: #ccc;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+}
+
+.sys-btn:hover {
+    background: rgba(255, 204, 0, 0.2);
+    color: #ffcc00;
+    border-color: #ffcc00;
+}
+
+/* Dialogue Box improvements */
+#dialogue-box {
+    background: linear-gradient(to bottom, rgba(10,10,15,0.9), rgba(0,0,0,0.95));
+    border: 1px solid #ffcc00;
+    border-top-width: 3px;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+}
+
+#character-name {
+    background: #ffcc00;
+    color: #000;
+    padding: 5px 20px;
+    border-radius: 4px 4px 0 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    box-shadow: 2px -2px 10px rgba(0,0,0,0.3);
+}
+
+#dialogue-text {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Choices */
+.choice-btn {
+    background: rgba(20, 20, 30, 0.9);
+    border: 1px solid #ffcc00;
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 15px 30px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.choice-btn:hover {
+    background: rgba(255, 204, 0, 0.9);
+    color: #000;
+    transform: scale(1.02) translateX(10px);
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
 }
