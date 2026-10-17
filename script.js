@@ -73,6 +73,25 @@ function loadScene(sceneId) {
         return;
     }
 
+    // Handle explicit transition
+    if (scene.transition) {
+        const transOverlay = document.getElementById('transition-overlay');
+        if (scene.transition === 'white') transOverlay.classList.add('fade-white');
+        else transOverlay.classList.remove('fade-white');
+
+        transOverlay.classList.add('fade-in');
+        setTimeout(() => {
+            executeSceneLoad(sceneId, scene);
+            setTimeout(() => {
+                transOverlay.classList.remove('fade-in');
+            }, 500); // give time for background to load behind
+        }, 1000); // 1s fade to black/white
+    } else {
+        executeSceneLoad(sceneId, scene);
+    }
+}
+
+function executeSceneLoad(sceneId, scene) {
     currentSceneId = sceneId;
 
     // Handle giving items
@@ -175,11 +194,15 @@ function loadScene(sceneId) {
     // Handle Sprite
     const spriteContainer = document.getElementById('character-sprite');
     const spriteImg = document.getElementById('sprite-img');
+
+    // Force reflow to reset animation
+    spriteContainer.classList.remove('show');
+    void spriteContainer.offsetWidth;
+
     if (scene.sprite) {
         spriteImg.src = scene.sprite;
-        spriteContainer.classList.remove('hidden');
+        spriteContainer.classList.add('show');
     } else {
-        spriteContainer.classList.add('hidden');
         spriteImg.src = '';
     }
 
@@ -518,6 +541,7 @@ function setupMinigame(type, scene) {
         minigameContainer.appendChild(keypad);
 
         function handleSafeInput(num) {
+            playUIClick();
             if (currentInput.length < 4) {
                 currentInput += num;
                 display.textContent = currentInput.padEnd(4, '-');
@@ -582,6 +606,7 @@ function setupMinigame(type, scene) {
         minigameContainer.appendChild(board);
 
         function selectNode(node, side) {
+            playUIClick();
             if (node.classList.contains('connected')) return;
 
             if (!selectedNode) {
@@ -697,6 +722,20 @@ function renderSingleSlot(id, slotKey, titleText) {
                 </div>
             `;
             slotDiv.classList.add('has-data');
+
+            if (id !== 'auto') {
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-save-btn';
+                deleteBtn.textContent = 'Borrar';
+                deleteBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    if(confirm(`¿Seguro que deseas borrar la ${titleText}?`)) {
+                        localStorage.removeItem(slotKey);
+                        renderSaveSlots();
+                    }
+                };
+                slotDiv.appendChild(deleteBtn);
+            }
         } catch(e) {
             slotDiv.innerHTML = `<span class="save-slot-empty">${titleText} - Error</span>`;
         }

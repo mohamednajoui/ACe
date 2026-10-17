@@ -338,15 +338,117 @@ const storyData = {
         text: "Con el Cuervo inmovilizado y la hija de Vance a salvo, llamo a los refuerzos. Con los documentos que robamos en la mansión, este imperio criminal se derrumbará mañana mismo.",
         background: "https://images.unsplash.com/photo-1469041797191-50ace28483c3?auto=format&fit=crop&q=80&w=1920",
         bgm: "stop",
-        next: "ch2_ending"
+        choices: [
+            { text: "Continuar al Capítulo 3...", next: "ch3_start" }
+        ]
     },
-    ch2_ending: {
+
+    // ==========================================
+    // CAPÍTULO 3
+    // ==========================================
+    ch3_start: {
+        character: "",
+        text: "<b>CAPÍTULO 3: EL CONTRAATAQUE</b><br><br>Tres días después. Las noticias estallan con el desmantelamiento del imperio del Cuervo.",
+        background: "https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?auto=format&fit=crop&q=80&w=1920", // City morning
+        transition: "white",
+        bgm: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_651a09635b.mp3?filename=sad-piano-ambient-16629.mp3",
+        weather: "none",
+        next: "ch3_office"
+    },
+    ch3_office: {
+        character: "Detective Arthur",
+        text: "Estoy en mi oficina, sirviéndome el tercer café de la mañana. Vance y su hija están bajo protección de testigos, pero algo no encaja. Los documentos mencionaban un cargamento final en el muelle 4.",
+        background: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=1920", // Office desk
+        sprite: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400&h=600",
+        choices: [
+            { text: "Dar el caso por cerrado y descansar", next: "ch3_lazy_end" },
+            { text: "Ir al Muelle 4 a investigar", next: "ch3_docks" }
+        ]
+    },
+    ch3_lazy_end: {
+        isEnding: true,
+        endingId: "neutral_lazy",
+        endingName: "Final Neutral: Trabajo Terminado",
+        endingDesc: "Detuviste al Cuervo, pero un último cargamento se escapó.",
+        character: "Sistema",
+        text: "<b>FINAL NEUTRAL</b>: Decidiste que ya habías hecho suficiente. Eres aclamado como un héroe en la ciudad, pero en el fondo sabes que un último barco fantasma logró zarpar...",
+        background: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=1920",
+        choices: [
+            { text: "Intentar Capítulo 3 de nuevo", next: "ch3_start" }
+        ]
+    },
+    ch3_docks: {
+        character: "Detective Arthur",
+        text: "El muelle 4 está rodeado de neblina. No hay trabajadores, solo un gran contenedor con la puerta entreabierta. Escucho un ruido metálico proveniente del interior.",
+        background: "https://images.unsplash.com/photo-1562234057-0b1a03e6730f?auto=format&fit=crop&q=80&w=1920", // Docks
+        weather: "rain",
+        bgm: "https://cdn.pixabay.com/download/audio/2021/11/25/audio_91b3bb1023.mp3?filename=suspense-dark-ambient-85590.mp3",
+        choices: [
+            { text: "Entrar sigilosamente", next: "ch3_container" },
+            { text: "Llamar por radio a refuerzos", next: "ch3_radio" }
+        ]
+    },
+    ch3_radio: {
+        character: "Detective Arthur",
+        text: "Tomo mi radio, pero solo hay estática. Un bloqueador de señal. De repente, siento un cañón frío en mi nuca.",
+        background: "https://images.unsplash.com/photo-1562234057-0b1a03e6730f?auto=format&fit=crop&q=80&w=1920",
+        sfx: "https://cdn.pixabay.com/download/audio/2021/08/04/audio_3d1a8e1008.mp3?filename=creaky-door-87588.mp3",
+        next: "ch3_ambush"
+    },
+    ch3_ambush: {
+        isEnding: true,
+        endingId: "bad_dock",
+        endingName: "Final Malo: El Bloqueador",
+        endingDesc: "Confiaste en la tecnología y te tendieron una trampa.",
+        character: "Sistema",
+        text: "<b>FINAL MALO</b>: El segundo al mando del Cuervo te estaba esperando. Sin forma de pedir ayuda, te convertiste en un daño colateral.",
+        background: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=1920",
+        choices: [
+            { text: "Reiniciar Capítulo 3", next: "ch3_start" }
+        ]
+    },
+    ch3_container: {
+        character: "Detective Arthur",
+        text: "Entro con el arma en alto. Dentro del contenedor hay hileras de cajas apiladas y una figura encapuchada armando un dispositivo que parpadea en rojo. ¡Es una bomba!",
+        background: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=1920", // Warehouse interior
+        choices: [
+            { text: "Gritar '¡Alto ahí!'", next: "ch3_bomb_threat" }
+        ]
+    },
+    ch3_bomb_threat: {
+        character: "Secuaz",
+        text: "¡El imperio del Cuervo no morirá! Si caemos, este puerto cae con nosotros. El dispositivo está bloqueado. Tienes 3 minutos, detective.",
+        background: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=1920",
+        next: "ch3_defuse_prep"
+    },
+    ch3_defuse_prep: {
+        character: "Detective Arthur",
+        text: "Lo noqueo de un golpe con la culata del arma. Me arrodillo frente al dispositivo. Tiene un complejo sistema de cables...",
+        background: "https://images.unsplash.com/photo-1621360155097-f58c7e6c1e14?auto=format&fit=crop&q=80&w=1920",
+        choices: [
+            { text: "Cortar cables (Minijuego)", next: "ch3_defuse_minigame" }
+        ]
+    },
+    ch3_defuse_minigame: {
+        minigame: 'wirePuzzle',
+        background: "https://images.unsplash.com/photo-1621360155097-f58c7e6c1e14?auto=format&fit=crop&q=80&w=1920",
+        minigamePrompt: "Desactiva la bomba enlazando los nodos del mismo color",
+        successNext: 'ch3_victory'
+    },
+    ch3_victory: {
+        character: "Detective Arthur",
+        text: "El temporizador se detiene a falta de 12 segundos. Me seco el sudor de la frente. Ahora sí, esto se ha acabado de verdad.",
+        background: "https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?auto=format&fit=crop&q=80&w=1920",
+        bgm: "stop",
+        next: "ch3_true_ending"
+    },
+    ch3_true_ending: {
         isEnding: true,
         endingId: "true_hero",
-        endingName: "Final Verdadero: Héroe",
-        endingDesc: "Derrotaste a la organización criminal y salvaste a todos.",
+        endingName: "Final Definitivo: La Sombra Disipada",
+        endingDesc: "Derrotaste a la organización criminal por completo, salvando el muelle.",
         character: "Sistema",
-        text: "<b>¡FELICIDADES! HAS COMPLETADO LA NOVELA VISUAL.</b><br><br>Lograste desmantelar a la organización del Cuervo y salvar a la familia Vance. Eres un verdadero detective.",
+        text: "<b>¡FELICIDADES! HAS COMPLETADO LA NOVELA VISUAL AL 100%.</b><br><br>Lograste desmantelar a la organización del Cuervo, rescataste a la familia Vance y evitaste la destrucción del Muelle 4. Tu nombre será leyenda en este departamento de policía.",
         background: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=1920",
         weather: "none",
         choices: [
@@ -364,5 +466,7 @@ window.endingsData = [
     { id: "good_rescue", name: "Final Alternativo: Rescatador" },
     { id: "bad_protect", name: "Final Trágico: Fuego Cruzado" },
     { id: "bad_betrayal", name: "Final Malo: Rendición" },
-    { id: "true_hero", name: "Final Verdadero: Héroe" }
+    { id: "neutral_lazy", name: "Final Neutral: Trabajo Terminado" },
+    { id: "bad_dock", name: "Final Malo: El Bloqueador" },
+    { id: "true_hero", name: "Final Definitivo: La Sombra Disipada" }
 ];

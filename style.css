@@ -10,7 +10,7 @@ body, html {
     height: 100%;
     overflow: hidden;
     background-color: #000;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Lora', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #game-container {
@@ -19,6 +19,10 @@ body, html {
     height: 100vh;
     background: #000;
     overflow: hidden;
+}
+
+h1, h2, h3, #character-name, .choice-btn, #main-menu button, .sys-btn {
+    font-family: 'Cinzel', serif;
 }
 
 .hidden {
@@ -34,7 +38,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=1920') no-repeat center center / cover;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=1920') no-repeat center center / cover;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -43,40 +47,57 @@ body, html {
 }
 
 #main-menu h1 {
-    color: white;
-    font-size: 4rem;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(255, 204, 0, 0.4);
-    letter-spacing: 2px;
-    margin-bottom: 50px;
-    animation: fadeInDown 1.5s ease-out;
+    color: #fcfcfc;
+    font-size: 5rem;
+    text-shadow: 0px 4px 15px rgba(0,0,0,0.9), 0 0 40px rgba(200, 200, 255, 0.3);
+    letter-spacing: 4px;
+    margin-bottom: 60px;
+    animation: fadeInDown 2s ease-out;
 }
 
 @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-30px); }
+    from { opacity: 0; transform: translateY(-40px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 #main-menu button {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     padding: 15px 40px;
-    margin: 10px;
-    min-width: 250px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    border: 2px solid #ffcc00;
-    border-radius: 30px;
-    transition: all 0.3s;
+    margin: 12px;
+    min-width: 280px;
+    background: rgba(20, 20, 30, 0.4);
+    backdrop-filter: blur(5px);
+    color: #eee;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    transition: all 0.4s ease;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+#main-menu button::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+#main-menu button:hover::before {
+    left: 100%;
 }
 
 #main-menu button:hover {
-    background: #ffcc00;
-    color: #000;
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 /* ==========================================
@@ -155,42 +176,51 @@ body, html {
 ========================================== */
 #dialogue-box {
     z-index: 100;
-    background: linear-gradient(to bottom, rgba(10,10,15,0.9), rgba(0,0,0,0.95));
-    border: 1px solid #ffcc00;
-    border-top-width: 3px;
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-    border-radius: 8px;
-    padding: 25px 20px 20px 20px;
-    margin: 0 5% 20px 5%;
-    min-height: 150px;
+    background: rgba(10, 15, 20, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 30px 40px 20px 40px;
+    margin: 0 5% 25px 5%;
+    min-height: 180px;
     position: relative;
     pointer-events: auto;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 #character-name {
     position: absolute;
-    top: -35px;
-    left: 20px;
-    background: #ffcc00;
-    color: #000;
-    padding: 5px 20px;
-    border-radius: 4px 4px 0 0;
+    top: -20px;
+    left: 40px;
+    background: linear-gradient(135deg, #eee, #aaa);
+    color: #111;
+    padding: 8px 30px;
+    border-radius: 4px;
     font-weight: bold;
     font-size: 1.2rem;
     text-transform: uppercase;
-    box-shadow: 2px -2px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    letter-spacing: 2px;
 }
 
 #dialogue-text {
-    font-size: 1.4rem;
-    line-height: 1.6;
-    text-shadow: 1px 1px 2px #000;
-    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1.8;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+    color: #fdfdfd;
 }
 
 #dialogue-text.typing::after {
-    content: '...';
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    margin-left: 5px;
     animation: blink 1s infinite;
 }
 
@@ -204,29 +234,32 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
-    gap: 10px;
+    margin-bottom: 30px;
+    gap: 15px;
     pointer-events: auto;
 }
 
 .choice-btn {
-    background: rgba(20, 20, 30, 0.9);
-    border: 1px solid #ffcc00;
-    color: #fff;
+    background: rgba(10, 15, 20, 0.8);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #eee;
     font-size: 1.2rem;
-    padding: 15px 30px;
-    border-radius: 8px;
-    transition: all 0.2s;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    padding: 15px 40px;
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     cursor: pointer;
-    min-width: 300px;
+    min-width: 400px;
+    text-align: center;
+    letter-spacing: 1px;
 }
 
 .choice-btn:hover {
-    background: rgba(255, 204, 0, 0.9);
+    background: rgba(255, 255, 255, 0.9);
     color: #000;
-    transform: scale(1.02) translateX(10px);
-    box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
 }
 
 /* ==========================================
@@ -498,18 +531,34 @@ body, html {
     border-radius: 8px; height: 100px; display: flex; align-items: center;
     cursor: pointer; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
-.save-slot:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.5); border-color: #ffcc00; }
+.save-slot:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.5); border-color: #fff; }
 .save-slot-empty { width: 100%; text-align: center; color: #666; font-style: italic; }
 .save-slot.has-data { justify-content: flex-start; }
 .save-slot-bg { width: 100px; height: 100px; background-size: cover; background-position: center; border-right: 1px solid #444; flex-shrink: 0; }
 .save-slot-info { padding: 10px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; flex-grow: 1; }
-.save-slot-title { font-weight: bold; color: #ffcc00; font-size: 1.1em; margin-bottom: 5px; }
+.save-slot-title { font-weight: bold; color: #eee; font-size: 1.1em; margin-bottom: 5px; }
 .save-slot-desc { color: #ccc; font-size: 0.85em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px; }
 .save-slot-date { color: #888; font-size: 0.8em; }
+.delete-save-btn {
+    position: absolute; right: 10px; top: 10px;
+    background: rgba(200, 0, 0, 0.7); color: white;
+    border: none; border-radius: 3px; padding: 2px 8px;
+    font-size: 0.8em; cursor: pointer; z-index: 10;
+}
+.delete-save-btn:hover { background: rgba(255, 0, 0, 1); }
 
 /* ==========================================
    EFFECTS & BACKGROUNDS
 ========================================== */
+#transition-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: black;
+    z-index: 99; pointer-events: none; opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+#transition-overlay.fade-in { opacity: 1; pointer-events: auto; }
+#transition-overlay.fade-white { background-color: white; }
+
 .bg-layer {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -564,11 +613,23 @@ body, html {
 
 #character-sprite {
     position: absolute;
-    bottom: 250px; left: 50%; transform: translateX(-50%);
-    z-index: 5; transition: opacity 0.5s ease-in-out; pointer-events: none;
+    bottom: 220px; left: 50%; transform: translateX(-50%);
+    z-index: 5; pointer-events: none;
+    opacity: 0; /* Default invisible before animation */
+    transition: opacity 0.5s ease-in-out;
 }
+#character-sprite.show {
+    opacity: 1;
+    animation: slideUpFade 0.5s ease-out forwards;
+}
+
+@keyframes slideUpFade {
+    0% { transform: translateX(-50%) translateY(30px); opacity: 0; }
+    100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
 #sprite-img {
-    max-height: 500px; width: auto; object-fit: contain; filter: drop-shadow(2px 4px 6px black);
+    max-height: 550px; width: auto; object-fit: contain; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.8));
 }
 
 .ending-toast {
