@@ -93,7 +93,8 @@ const storyData = {
         background: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=1920",
         minigamePrompt: "Busca la llave oculta cerca del centro de la puerta",
         hotspot: { x: '45%', y: '45%', w: '10%', h: '10%' },
-        successNext: 'bedroom_enter'
+        successNext: 'bedroom_enter',
+        cancelNext: 'second_floor'
     },
     bedroom_enter: {
         character: "Detective Arthur",
@@ -127,7 +128,8 @@ const storyData = {
         background: "https://images.unsplash.com/photo-1616883162796-0373ab1a1236?auto=format&fit=crop&q=80&w=1920",
         minigamePrompt: "Introduce el código de 4 dígitos en la caja fuerte.",
         correctCode: '1989', // Year the Berlin Wall fell
-        successNext: 'safe_opened'
+        successNext: 'safe_opened',
+        cancelNext: 'study'
     },
     safe_opened: {
         character: "Detective Arthur",
@@ -164,7 +166,8 @@ const storyData = {
         minigame: 'wirePuzzle',
         background: "https://images.unsplash.com/photo-1621360155097-f58c7e6c1e14?auto=format&fit=crop&q=80&w=1920",
         minigamePrompt: "Conecta los cables del mismo color (Clic izquierdo en uno, luego en el otro)",
-        successNext: 'basement_escape'
+        successNext: 'basement_escape',
+        cancelNext: 'fuse_box'
     },
     basement_escape: {
         character: "Detective Arthur",
@@ -433,7 +436,8 @@ const storyData = {
         minigame: 'wirePuzzle',
         background: "https://images.unsplash.com/photo-1621360155097-f58c7e6c1e14?auto=format&fit=crop&q=80&w=1920",
         minigamePrompt: "Desactiva la bomba enlazando los nodos del mismo color",
-        successNext: 'ch3_victory'
+        successNext: 'ch3_victory',
+        cancelNext: 'ch3_defuse_prep'
     },
     ch3_victory: {
         character: "Detective Arthur",
@@ -518,6 +522,7 @@ const storyData = {
         minigame: "safeCracking",
         correctCode: "2049",
         successNext: "ch4_nexus_interior",
+        cancelNext: "ch4_nexus_exterior",
         background: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1920",
         minigamePrompt: "La pista en el teclado dice 'Año de Fundación'. (Prueba 2049)"
     },
@@ -581,7 +586,8 @@ const storyData = {
         gridValues: ['A','Y','C','W', 'X','B','Z','A', 'Y','C','W','X', 'B','Z','A','Y'],
         minigamePrompt: "Aísla el núcleo de red conectando los nodos: A - X - B - Z",
         background: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1920",
-        successNext: "ch4_true_hero"
+        successNext: "ch4_true_hero",
+        cancelNext: "ch4_terminal_encounter"
     },
     ch4_true_hero: {
         character: "Dr. Aris",

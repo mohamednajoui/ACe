@@ -232,16 +232,23 @@ function executeSceneLoad(sceneId, scene) {
         characterNameEl.style.display = ''; // Clear inline style
     }
 
-    if (scene.text) {
+    if (scene.minigame) {
+        // Minigames don't use typewriter, they just show instructions
+        dialogueTextEl.innerHTML = scene.text || "";
+        isTyping = false;
+        setupMinigame(scene.minigame, scene);
+
+        if (scene.text) {
+            dialogueHistory.push({
+                character: scene.character,
+                text: scene.text
+            });
+        }
+    } else if (scene.text) {
         if (isSkip) {
             dialogueTextEl.innerHTML = scene.text;
             finishTyping(scene);
             return;
-        } else if (scene.minigame) {
-            // Minigames don't use typewriter, they just show instructions
-            dialogueTextEl.innerHTML = scene.text || "";
-            isTyping = false;
-            setupMinigame(scene.minigame, scene);
         } else {
             playTypewriterEffect(scene.text, scene);
         }
@@ -604,7 +611,7 @@ function setupMinigame(type, scene) {
         cancelBtn.textContent = 'ABORTAR';
         cancelBtn.onclick = () => {
             minigameContainer.classList.add('hidden');
-            loadScene(currentSceneId);
+            loadScene(scene.cancelNext || currentSceneId);
         };
         minigameContainer.appendChild(cancelBtn);
 
@@ -674,7 +681,7 @@ function setupMinigame(type, scene) {
         cancelBtn.onclick = () => {
             minigameContainer.classList.add('hidden');
             // Give option to leave
-            loadScene(currentSceneId); // reload scene to show standard choices again
+            loadScene(scene.cancelNext || currentSceneId);
         };
         keypad.appendChild(cancelBtn);
 
@@ -744,6 +751,18 @@ function setupMinigame(type, scene) {
         board.appendChild(colLeft);
         board.appendChild(colRight);
         minigameContainer.appendChild(board);
+
+        if (scene.cancelNext) {
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'sys-btn';
+            cancelBtn.style.marginTop = '15px';
+            cancelBtn.textContent = 'ABORTAR';
+            cancelBtn.onclick = () => {
+                minigameContainer.classList.add('hidden');
+                loadScene(scene.cancelNext);
+            };
+            minigameContainer.appendChild(cancelBtn);
+        }
 
         function selectNode(node, side) {
             playUIClick();
