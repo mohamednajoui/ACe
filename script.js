@@ -61,6 +61,23 @@ function startGame() {
     loadScene('start');
 }
 
+function autoSave(sceneId) {
+    const scene = storyData[sceneId];
+    if (sceneId === 'start' || scene.isEnding) return;
+
+    let rawText = scene.text ? scene.text.replace(/<[^>]*>?/gm, '') : '';
+    const autoSaveData = {
+        sceneId: sceneId,
+        inventory: playerInventory,
+        history: dialogueHistory,
+        timestamp: Date.now(),
+        bgImage: scene.background || '',
+        desc: scene.character ? scene.character + ': ' + rawText.substring(0, 30) + '...' : rawText.substring(0, 30) + '...'
+    };
+    localStorage.setItem('ecos_save_auto', JSON.stringify(autoSaveData));
+    showToast('Progreso guardado (Auto)');
+}
+
 function loadScene(sceneId) {
     const scene = storyData[sceneId];
 
@@ -71,6 +88,11 @@ function loadScene(sceneId) {
     if (!scene) {
         console.error(`Scene ${sceneId} not found!`);
         return;
+    }
+
+    // Autosave check
+    if (scene.isCheckpoint) {
+        autoSave(sceneId);
     }
 
     // Handle explicit transition
@@ -101,19 +123,6 @@ function executeSceneLoad(sceneId, scene) {
         showToast('Obtuviste: ' + scene.giveItem);
     }
 
-    // Perform Auto-Save
-    if (sceneId !== 'start' && !scene.isEnding) {
-        let rawText = scene.text ? scene.text.replace(/<[^>]*>?/gm, '') : '';
-        const autoSaveData = {
-            sceneId: currentSceneId,
-            inventory: playerInventory,
-            history: dialogueHistory,
-            timestamp: Date.now(),
-            bgImage: scene.background || '',
-            desc: scene.character ? scene.character + ': ' + rawText.substring(0, 30) + '...' : rawText.substring(0, 30) + '...'
-        };
-        localStorage.setItem('ecos_save_auto', JSON.stringify(autoSaveData));
-    }
 
     // Clear previous choices
     choicesContainerEl.innerHTML = '';
@@ -177,6 +186,12 @@ function executeSceneLoad(sceneId, scene) {
         }
     } else {
         weatherLayerEl.innerHTML = '';
+    }
+
+    if (scene.effect === 'static') {
+        fxOverlayEl.className = 'fx-static';
+    } else {
+        fxOverlayEl.className = '';
     }
 
     if (scene.shake) {
@@ -337,18 +352,31 @@ dialogueBoxEl.addEventListener('click', (e) => {
 function showChoices(choices) {
     choicesContainerEl.innerHTML = '';
     choices.forEach(choice => {
-        // Check requirements
-        if (choice.requiredItem && !playerInventory.includes(choice.requiredItem)) {
-            return; // Skip choice if item missing
-        }
-
         const btn = document.createElement('button');
         btn.classList.add('choice-btn');
-        btn.innerHTML = choice.text; // Allow rich text in choices
-        btn.onclick = (e) => {
-            e.stopPropagation();
-            loadScene(choice.next);
-        };
+
+        // Check requirements for visual feedback
+        let isLocked = false;
+        if (choice.requiredItem && !playerInventory.includes(choice.requiredItem)) {
+            isLocked = true;
+        }
+
+        if (isLocked) {
+            btn.classList.add('locked');
+            btn.innerHTML = `${choice.text} <span class="locked-reason">(Requiere: ${choice.requiredItem})</span>`;
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                // Play error sound or just do nothing
+                playUIClick();
+            };
+        } else {
+            btn.innerHTML = choice.text; // Allow rich text in choices
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                loadScene(choice.next);
+            };
+        }
+
         choicesContainerEl.appendChild(btn);
     });
     bindUIAudio(); // Bind audio to new choices
@@ -364,8 +392,39 @@ function updateInventoryUI() {
         const span = document.createElement('span');
         span.classList.add('inv-item');
         span.textContent = item;
+        span.onclick = () => showItemDescription(item);
         inventoryItemsEl.appendChild(span);
     });
+}
+
+// Minimal descriptions for items, fallback to default text
+const itemDescriptions = {
+    "Tarjeta de Acceso": "Una tarjeta con banda magnética azul, parece abrir la puerta de seguridad principal.",
+    "Batería Pequeña": "Una batería de 9V, algo gastada pero aún con carga.",
+    "Documento Confidencial": "Notas del Dr. Aris sobre el proyecto Sombra. Habla de fallos de contención y sacrificios necesarios.",
+    "Kit de Hackeo": "Un terminal portátil con herramientas para saltarse sistemas de seguridad estándar."
+};
+
+function showItemDescription(itemName) {
+    const overlay = document.getElementById('item-description-overlay');
+    const nameEl = document.getElementById('item-name');
+    const descEl = document.getElementById('item-desc');
+
+    if (overlay && nameEl && descEl) {
+        nameEl.textContent = itemName;
+        descEl.textContent = itemDescriptions[itemName] || "Un objeto de tu inventario. Podría ser útil más adelante.";
+        overlay.classList.remove('hidden');
+        playUIClick();
+    }
+}
+
+// Also need this function to be on the window to be callable from HTML
+window.closeItemDescription = function() {
+    const overlay = document.getElementById('item-description-overlay');
+    if (overlay) {
+        overlay.classList.add('hidden');
+        playUIClick();
+    }
 }
 
 // Dialog History
@@ -470,7 +529,87 @@ function setupMinigame(type, scene) {
     title.textContent = scene.minigamePrompt || "Minijuego";
     minigameContainer.appendChild(title);
 
-    if (type === 'hiddenObject') {
+    if (type === 'hacking') {
+        const targetSequence = scene.targetSequence || ['A', 'B', 'C'];
+        const gridValues = scene.gridValues || ['A','X','B','Y', 'C','Z','A','W', 'B','C','X','Y', 'Z','W','A','B'];
+        let currentSequence = [];
+
+        // Sequence display
+        const seqDisplay = document.createElement('div');
+        seqDisplay.className = 'hack-sequence-display';
+        for (let i = 0; i < targetSequence.length; i++) {
+            const seqItem = document.createElement('div');
+            seqItem.className = 'hack-seq-item';
+            seqItem.textContent = targetSequence[i];
+            seqDisplay.appendChild(seqItem);
+        }
+        minigameContainer.appendChild(seqDisplay);
+
+        // Grid
+        const grid = document.createElement('div');
+        grid.id = 'hack-grid';
+
+        const statusText = document.createElement('div');
+        statusText.id = 'hack-status';
+        statusText.textContent = "INICIA SECUENCIA";
+
+        gridValues.forEach((val, index) => {
+            const node = document.createElement('div');
+            node.className = 'hack-node';
+            node.textContent = val;
+
+            node.onclick = () => {
+                if (node.classList.contains('locked-in')) return;
+                playUIClick();
+
+                const expected = targetSequence[currentSequence.length];
+                if (val === expected) {
+                    node.classList.add('locked-in');
+                    currentSequence.push(val);
+                    seqDisplay.children[currentSequence.length - 1].classList.add('filled');
+
+                    if (currentSequence.length === targetSequence.length) {
+                        statusText.textContent = "ACCESO CONCEDIDO";
+                        statusText.style.color = "#0f0";
+                        setTimeout(() => {
+                            minigameContainer.classList.add('hidden');
+                            loadScene(scene.successNext);
+                        }, 1500);
+                    } else {
+                        statusText.textContent = "COINCIDENCIA ENCONTRADA";
+                    }
+                } else {
+                    // Reset
+                    playUIClick(); // maybe error sound in future
+                    statusText.textContent = "SECUENCIA INCORRECTA. REINICIANDO.";
+                    statusText.style.color = "#f00";
+                    setTimeout(() => {
+                        statusText.style.color = "#0f0";
+                        statusText.textContent = "INICIA SECUENCIA";
+                        currentSequence = [];
+                        document.querySelectorAll('.hack-node.locked-in').forEach(n => n.classList.remove('locked-in'));
+                        document.querySelectorAll('.hack-seq-item.filled').forEach(n => n.classList.remove('filled'));
+                    }, 1000);
+                }
+            };
+            grid.appendChild(node);
+        });
+
+        minigameContainer.appendChild(grid);
+        minigameContainer.appendChild(statusText);
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'sys-btn';
+        cancelBtn.style.marginTop = '15px';
+        cancelBtn.textContent = 'ABORTAR';
+        cancelBtn.onclick = () => {
+            minigameContainer.classList.add('hidden');
+            loadScene(currentSceneId);
+        };
+        minigameContainer.appendChild(cancelBtn);
+
+    }
+    else if (type === 'hiddenObject') {
         const bgDiv = document.createElement('div');
         bgDiv.style.position = 'relative';
         bgDiv.style.width = '100%';
@@ -513,6 +652,7 @@ function setupMinigame(type, scene) {
             btn.onclick = () => handleSafeInput(i);
             keypad.appendChild(btn);
         }
+
         const clearBtn = document.createElement('button');
         clearBtn.className = 'keypad-btn';
         clearBtn.textContent = 'C';

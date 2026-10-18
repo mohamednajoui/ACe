@@ -443,14 +443,171 @@ const storyData = {
         next: "ch3_true_ending"
     },
     ch3_true_ending: {
-        isEnding: true,
-        endingId: "true_hero",
-        endingName: "Final Definitivo: La Sombra Disipada",
-        endingDesc: "Derrotaste a la organización criminal por completo, salvando el muelle.",
         character: "Sistema",
-        text: "<b>¡FELICIDADES! HAS COMPLETADO LA NOVELA VISUAL AL 100%.</b><br><br>Lograste desmantelar a la organización del Cuervo, rescataste a la familia Vance y evitaste la destrucción del Muelle 4. Tu nombre será leyenda en este departamento de policía.",
+        text: "<b>¡FIN DEL CAPÍTULO 3!</b><br><br>Lograste evitar la destrucción del muelle, pero descubres una nota en el bolsillo del hombre de traje...",
         background: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=1920",
         weather: "none",
+        choices: [
+            { text: "Leer la nota (Continuar al Capítulo 4)", next: "ch4_start" }
+        ]
+    },
+
+    // ==========================================
+    // CAPÍTULO 4: EL CEREBRO DE LA OPERACIÓN
+    // ==========================================
+    ch4_start: {
+        isCheckpoint: true,
+        transition: 'black',
+        character: "Detective Arthur",
+        text: "La nota solo tiene unas coordenadas y un nombre: 'Dr. Aris'. El complejo corporativo de Nexus Corp está a unas millas de aquí.",
+        background: "https://images.unsplash.com/photo-1517721838634-11e0e8524458?auto=format&fit=crop&q=80&w=1920",
+        weather: "rain",
+        bgm: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_82c64ee39d.mp3?filename=dark-ambient-110052.mp3",
+        choices: [
+            { text: "Conducir hacia Nexus Corp", next: "ch4_nexus_exterior" },
+            { text: "Llamar a los refuerzos primero", next: "ch4_call_backup" }
+        ]
+    },
+    ch4_call_backup: {
+        character: "Detective Arthur",
+        text: "Llamo al comisario. Me dice que no mueva un dedo, que la jurisdicción le pertenece a los federales. Si me quedo aquí, el verdadero líder escapará.",
+        background: "https://images.unsplash.com/photo-1517721838634-11e0e8524458?auto=format&fit=crop&q=80&w=1920",
+        choices: [
+            { text: "Desobedecer e ir de todos modos", next: "ch4_nexus_exterior" },
+            { text: "Hacer caso y esperar", next: "ch4_ending_fired" }
+        ]
+    },
+    ch4_ending_fired: {
+        isEnding: true,
+        endingId: "bad_fired",
+        endingDesc: "Dejaste escapar al cerebro detrás de todo, el caso fue cerrado.",
+        character: "Sistema",
+        text: "<b>FINAL: BUROCRACIA</b><br><br>Los federales llegaron horas tarde. El Dr. Aris eliminó las pruebas y escapó. Fuiste suspendido por insubordinación.",
+        background: "https://images.unsplash.com/photo-1506544777-64cf8e30b65f?auto=format&fit=crop&q=80&w=1920",
+        choices: [ { text: "Volver al inicio", next: "start" } ]
+    },
+    ch4_nexus_exterior: {
+        character: "Detective Arthur",
+        text: "El edificio de Nexus Corp parece abandonado, pero la puerta de servicio electrónica está encendida. Necesito una forma de entrar.",
+        background: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1920",
+        weather: "rain",
+        choices: [
+            { text: "Usar Tarjeta de Acceso", requiredItem: "Tarjeta de Acceso", next: "ch4_nexus_interior" },
+            { text: "Forzar la cerradura (Minijuego de Safe)", next: "ch4_door_hack" },
+            { text: "Buscar otra entrada", next: "ch4_vents" }
+        ]
+    },
+    ch4_vents: {
+        character: "Detective Arthur",
+        text: "Los conductos de ventilación son demasiado estrechos. Me atasco y las alarmas de presión me delatan. Gas somnífero llena el túnel...",
+        background: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1920",
+        effect: "static",
+        shake: true,
+        next: "ch4_ending_gas"
+    },
+    ch4_ending_gas: {
+        isEnding: true,
+        endingId: "bad_gas",
+        endingDesc: "Atrapado como una rata en los conductos.",
+        character: "Sistema",
+        text: "<b>FINAL MALO: ASFIXIA</b><br><br>Nunca debiste intentar entrar por ahí sin equipo.",
+        background: "https://images.unsplash.com/photo-1506544777-64cf8e30b65f?auto=format&fit=crop&q=80&w=1920",
+        choices: [ { text: "Volver al inicio", next: "start" } ]
+    },
+    ch4_door_hack: {
+        minigame: "safeCracking",
+        correctCode: "2049",
+        successNext: "ch4_nexus_interior",
+        background: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1920",
+        minigamePrompt: "La pista en el teclado dice 'Año de Fundación'. (Prueba 2049)"
+    },
+    ch4_nexus_interior: {
+        character: "Detective Arthur",
+        text: "Logré entrar. El lobby está a oscuras, iluminado solo por la luz de los servidores gigantes en el nivel inferior. Veo el terminal principal al fondo.",
+        background: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1920",
+        weather: "none",
+        choices: [
+            { text: "Acercarse al terminal", next: "ch4_terminal_encounter" }
+        ]
+    },
+    ch4_terminal_encounter: {
+        character: "Dr. Aris",
+        text: "Sabía que las ratas terminarían encontrando el queso. Llegas tarde, detective. La transferencia de datos está casi completa.",
+        background: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1920",
+        sprite: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&q=80&w=400",
+        choices: [
+            { text: "Disparar al servidor para detenerlo", next: "ch4_shoot_server" },
+            { text: "Usar mi Kit de Hackeo para interceptar", requiredItem: "Kit de Hackeo", next: "ch4_hack_minigame" },
+            { text: "Negociar con Aris", next: "ch4_negotiate" }
+        ]
+    },
+    ch4_shoot_server: {
+        character: "Dr. Aris",
+        text: "¡Idiota! Esos servidores tienen refrigeración inestable. ¡Has provocado una sobrecarga!",
+        background: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1920",
+        effect: "static",
+        shake: true,
+        flash: "red",
+        sfx: "https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=explosion-91872.mp3",
+        next: "ch4_ending_explosion"
+    },
+    ch4_ending_explosion: {
+        isEnding: true,
+        endingId: "bad_explosion",
+        endingDesc: "Destruiste el edificio junto contigo y el Dr. Aris.",
+        character: "Sistema",
+        text: "<b>FINAL MALO: SOBRECARGA</b><br><br>La fuerza bruta no siempre es la respuesta en una sala de servidores.",
+        background: "https://images.unsplash.com/photo-1506544777-64cf8e30b65f?auto=format&fit=crop&q=80&w=1920",
+        choices: [ { text: "Volver al inicio", next: "start" } ]
+    },
+    ch4_negotiate: {
+        character: "Dr. Aris",
+        text: "Tú y yo no tenemos nada que hablar. ¡Guardias!",
+        background: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1920",
+        next: "ch4_ending_guards"
+    },
+    ch4_ending_guards: {
+        isEnding: true,
+        endingId: "bad_guards",
+        endingDesc: "Demasiada charla y poca acción. Fuiste acribillado.",
+        character: "Sistema",
+        text: "<b>FINAL MALO: SIN PALABRAS</b><br><br>Los guardias de seguridad de Nexus Corp no hacen preguntas.",
+        background: "https://images.unsplash.com/photo-1506544777-64cf8e30b65f?auto=format&fit=crop&q=80&w=1920",
+        choices: [ { text: "Volver al inicio", next: "start" } ]
+    },
+    ch4_hack_minigame: {
+        minigame: "hacking",
+        targetSequence: ['A', 'X', 'B', 'Z'],
+        gridValues: ['A','Y','C','W', 'X','B','Z','A', 'Y','C','W','X', 'B','Z','A','Y'],
+        minigamePrompt: "Aísla el núcleo de red conectando los nodos: A - X - B - Z",
+        background: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1920",
+        successNext: "ch4_true_hero"
+    },
+    ch4_true_hero: {
+        character: "Dr. Aris",
+        text: "¡No! ¡La transferencia! ¿Cómo demonios...?",
+        background: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1920",
+        sprite: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&q=80&w=400",
+        shake: true,
+        next: "ch4_arrest"
+    },
+    ch4_arrest: {
+        character: "Detective Arthur",
+        text: "Se acabó, Doc. He desviado toda tu información al servidor central de la policía, y he bloqueado los tuyos. Estás acabado.",
+        background: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1920",
+        choices: [
+            { text: "Esposarlo y terminar", next: "ch4_grand_finale" }
+        ]
+    },
+    ch4_grand_finale: {
+        isEnding: true,
+        endingId: "true_hero",
+        endingName: "Final Definitivo: Proyecto Sombra Caído",
+        endingDesc: "Derrotaste al cerebro de la organización y salvaste la ciudad.",
+        character: "Sistema",
+        text: "<b>¡FELICIDADES! HAS COMPLETADO LA HISTORIA AL 100%.</b><br><br>Nexus Corp fue desmantelada, el Dr. Aris está entre rejas, y tú lograste detener una de las mayores conspiraciones corporativas de la década. Tu placa y tu ciudad están a salvo.",
+        background: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=1920",
+        bgm: "stop",
         choices: [
             { text: "Jugar desde el inicio", next: "start" }
         ]
@@ -468,5 +625,9 @@ window.endingsData = [
     { id: "bad_betrayal", name: "Final Malo: Rendición" },
     { id: "neutral_lazy", name: "Final Neutral: Trabajo Terminado" },
     { id: "bad_dock", name: "Final Malo: El Bloqueador" },
-    { id: "true_hero", name: "Final Definitivo: La Sombra Disipada" }
+    { id: "bad_fired", name: "Final Malo: Suspendido" },
+    { id: "bad_gas", name: "Final Malo: Asfixia" },
+    { id: "bad_explosion", name: "Final Malo: Sobrecarga" },
+    { id: "bad_guards", name: "Final Malo: Sin Palabras" },
+    { id: "true_hero", name: "Final Definitivo: Proyecto Sombra Caído" }
 ];
