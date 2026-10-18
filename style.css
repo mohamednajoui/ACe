@@ -771,3 +771,186 @@ h1, h2, h3, #character-name, .choice-btn, #main-menu button, .sys-btn {
     transition: top 0.5s ease-in-out; z-index: 9999; pointer-events: none;
 }
 .ending-toast.show { top: 20px; }
+
+/* ==========================================
+   MOBILE & RESPONSIVE ADAPTATIONS
+========================================== */
+@media screen and (max-width: 768px) {
+    #main-menu h1 {
+        font-size: 3rem;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    #main-menu button {
+        min-width: 80%;
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+
+    #system-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        padding: 5px 10px 10px 10px;
+    }
+
+    .sys-btn {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+
+    #inventory-container {
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        justify-content: center;
+        flex-wrap: wrap;
+        font-size: 0.8rem;
+    }
+
+    #item-description-overlay {
+        top: 140px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        text-align: center;
+    }
+
+    #dialogue-box {
+        margin: 0 2% 10px 2%;
+        padding: 25px 15px 15px 15px;
+        min-height: 140px;
+    }
+
+    #character-name {
+        left: 15px;
+        top: -15px;
+        font-size: 1rem;
+        padding: 5px 15px;
+    }
+
+    #dialogue-text {
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+
+    .choice-btn {
+        min-width: 90%;
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+
+    #character-sprite {
+        bottom: 180px;
+    }
+
+    #sprite-img {
+        max-height: 350px;
+    }
+
+    /* Overlays */
+    #history-container, #settings-container, #gallery-container, #saveload-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    #saveload-slots {
+        grid-template-columns: 1fr;
+    }
+
+    .setting-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .setting-group input[type=range] {
+        width: 100%;
+    }
+
+    /* Minigames scaling */
+    #minigame-container {
+        min-width: 95%;
+        padding: 15px;
+    }
+
+    #minigame-container h2 {
+        font-size: 1.2rem;
+    }
+
+    #hack-grid {
+        gap: 5px;
+        padding: 10px;
+    }
+
+    .hack-node {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    #safe-display {
+        font-size: 2rem;
+        padding: 10px;
+    }
+
+    .keypad-btn {
+        padding: 15px 0;
+        font-size: 1.2rem;
+    }
+
+    #wire-board {
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .wire-col {
+        gap: 15px;
+    }
+
+    .wire-node {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* Additional minigame scaling fixes for very small mobile screens */
+@media screen and (max-width: 480px) {
+    #hack-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3px;
+        padding: 5px;
+    }
+
+    .hack-node {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    #safe-display {
+        font-size: 1.5rem;
+        padding: 8px;
+    }
+
+    .keypad-btn {
+        padding: 10px 0;
+        font-size: 1rem;
+    }
+
+    .choice-btn {
+        min-width: 100%;
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+
+    #dialogue-text {
+        font-size: 1rem;
+    }
+
+    #main-menu h1 {
+        font-size: 2.2rem;
+    }
+}

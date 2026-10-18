@@ -1,7 +1,7 @@
 const storyData = {
     start: {
         character: "",
-        text: "La lluvia golpea implacable contra el parabrisas. Has estado conduciendo durante dos horas hacia las afueras de la ciudad. El mensaje que recibiste esta mañana era breve: <i>'La Mansión Blackwood. Encuéntralo antes de que <span style=\"color: red; font-weight: bold;\">ellos</span> lo hagan.'</i>",
+        text: "La lluvia golpea implacable contra el parabrisas. Has estado conduciendo durante dos horas hacia las afueras de la ciudad. El mensaje que recibiste esta mañana era breve: <i>'La Mansión Blackwood. Encuéntralo antes de que <span style=\"color: red; font-weight: bold;\">ellos</span> lo hagan.'</i><br><br>Es tu última oportunidad de descubrir la verdad. <span style=\"color: #ffcc00; font-weight: bold;\">No confíes en nadie.</span>",
         background: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=1920",
         bgm: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_8e20b332b0.mp3?filename=rain-and-thunder-16705.mp3",
         next: "arrival",
@@ -38,7 +38,7 @@ const storyData = {
     },
     hallway: {
         character: "",
-        text: "En el gran salón, ves caminos obvios. Una gran escalera que sube hacia la oscuridad del segundo piso, y una puerta entreabierta que conduce a un estudio iluminado por una luz parpadeante. También notas una puerta fuertemente reforzada hacia el sótano.",
+        text: "En el gran salón, ves caminos obvios. Una gran escalera que sube hacia la oscuridad del segundo piso, y una puerta entreabierta que conduce a un estudio iluminado por una luz parpadeante. También notas una puerta fuertemente reforzada hacia el sótano.<br><br>Sientes un escalofrío. <span style=\"color: cyan;\">Alguien te está observando...</span>",
         background: "https://images.unsplash.com/photo-1550095874-5c9c9d0d3436?auto=format&fit=crop&q=80&w=1920",
         kenburns: true,
         choices: [
@@ -238,7 +238,7 @@ const storyData = {
     // ==========================================
     ch2_start: {
         character: "",
-        text: "<b>CAPÍTULO 2: LA ESTACIÓN DE TREN</b><br><br>Una hora más tarde...",
+        text: "<b><span style=\"font-size:1.5em; color:#ffcc00;\">CAPÍTULO 2: LA ESTACIÓN DE TREN</span></b><br><br>Una hora más tarde...",
         background: "https://images.unsplash.com/photo-1473655589139-66c3ab5d0f62?auto=format&fit=crop&q=80&w=1920", // Empty road/station
         bgm: "https://cdn.pixabay.com/download/audio/2022/10/25/audio_b2f9eb8413.mp3?filename=dark-ambient-soundscape-123497.mp3",
         weather: "rain",
@@ -351,7 +351,7 @@ const storyData = {
     // ==========================================
     ch3_start: {
         character: "",
-        text: "<b>CAPÍTULO 3: EL CONTRAATAQUE</b><br><br>Tres días después. Las noticias estallan con el desmantelamiento del imperio del Cuervo.",
+        text: "<b><span style=\"font-size:1.5em; color:#ffcc00;\">CAPÍTULO 3: EL CONTRAATAQUE</span></b><br><br>Tres días después. Las noticias estallan con el desmantelamiento del imperio del Cuervo.",
         background: "https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?auto=format&fit=crop&q=80&w=1920", // City morning
         transition: "white",
         bgm: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_651a09635b.mp3?filename=sad-piano-ambient-16629.mp3",
@@ -463,7 +463,7 @@ const storyData = {
         isCheckpoint: true,
         transition: 'black',
         character: "Detective Arthur",
-        text: "La nota solo tiene unas coordenadas y un nombre: 'Dr. Aris'. El complejo corporativo de Nexus Corp está a unas millas de aquí.",
+        text: "<b><span style=\"font-size:1.5em; color:#ffcc00;\">CAPÍTULO 4: EL CEREBRO DE LA OPERACIÓN</span></b><br><br>La nota solo tiene unas coordenadas y un nombre: 'Dr. Aris'. El complejo corporativo de Nexus Corp está a unas millas de aquí.",
         background: "https://images.unsplash.com/photo-1517721838634-11e0e8524458?auto=format&fit=crop&q=80&w=1920",
         weather: "rain",
         bgm: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_82c64ee39d.mp3?filename=dark-ambient-110052.mp3",
